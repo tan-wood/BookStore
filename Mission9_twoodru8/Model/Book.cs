@@ -1,20 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-#nullable disable
 
 namespace Mission9_twoodru8.Model
 {
     public partial class Book
     {
-        public long BookId { get; set; }
+        [Key]
+        [Required]
+        public int BookId { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Author { get; set; }
+        [Required]
         public string Publisher { get; set; }
+        [Required]
         public string Isbn { get; set; }
+        [Required]
         public string Classification { get; set; }
+        [Required]
         public string Category { get; set; }
-        public long PageCount { get; set; }
+        [Required]
+        public int PageCount { get; set; }
+        [Required]
         public double Price { get; set; }
     }
 }

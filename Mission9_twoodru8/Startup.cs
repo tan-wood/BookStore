@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-//using Mission9_twoodru8.Models;
+using Mission9_twoodru8.Model;
 
 namespace Mission9_twoodru8
 {
@@ -26,11 +26,13 @@ namespace Mission9_twoodru8
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
-			//services.AddDbContext<BookstoreContext>(options=>
-			//{
-			//	options.UseSqlite(Configuration["ConnectionStrings:BookStoreDBConn"]);
-			//}
-			//);
+			services.AddDbContext<BookstoreContext>(options =>
+			{
+				options.UseSqlite(Configuration["ConnectionStrings:BookStoreDBConn"]);
+			}
+			);
+			//this is decoupling
+			services.AddScoped<IBookstoreRepo, EFBookstoreReop>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
