@@ -17,13 +17,14 @@ namespace Mission9_twoodru8.Controllers
 		{
 			repo = temp;
 		}
-		public IActionResult Index(int pageNum = 1)
+		public IActionResult Index(string bookCategory, int pageNum = 1)
 		{
 			int pageSize = 10;
 
 			var model = new BooksViewModel
 			{
 				Books = repo.Books
+				.Where(b=>b.Category == bookCategory || bookCategory == null)
 				.OrderBy(b => b.Title)
 				//means that we can skip this many records
 				//This will get the pageNum and then skip the pagesize
@@ -33,7 +34,9 @@ namespace Mission9_twoodru8.Controllers
 
 				PageInfo = new PageInfo
 				{
-					TotalNumBooks = repo.Books.Count(),
+					TotalNumBooks = (bookCategory == null
+						? repo.Books.Count()
+						: repo.Books.Where(x => x.Category == bookCategory).Count()),
 					BooksPerPage = pageSize,
 					CurrentPage = pageNum,
 				}

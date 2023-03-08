@@ -26,6 +26,7 @@ namespace Mission9_twoodru8
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
+			services.AddRazorPages();
 			services.AddDbContext<BookstoreContext>(options =>
 			{
 				options.UseSqlite(Configuration["ConnectionStrings:BookStoreDBConn"]);
@@ -33,6 +34,8 @@ namespace Mission9_twoodru8
 			);
 			//this is decoupling
 			services.AddScoped<IBookstoreRepo, EFBookstoreReop>();
+			services.AddDistributedMemoryCache();
+			services.AddSession();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +53,7 @@ namespace Mission9_twoodru8
 			}
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
+			app.UseSession();
 
 			app.UseRouting();
 
@@ -57,9 +61,21 @@ namespace Mission9_twoodru8
 
 			app.UseEndpoints(endpoints =>
 			{
+				// these happen in order of how they are, so make sure that this is first
+				endpoints.MapControllerRoute("categoryPage",
+					"{bookCategory}/Page{pageNum}",
+					new { Controller = "Home", action = "Index", pageNum = 1 });
 				endpoints.MapControllerRoute(
-					name: "default",
-					pattern: "{controller=Home}/{action=Index}/{id?}");
+					name: "Paging",
+					pattern: "Page{pageNum}",
+					defaults: new { Controller = "Home", action = "Index" }
+					);
+				endpoints.MapControllerRoute("category",
+					"{bookCategory}",
+					new { Controller = "Home", action = "Index", pageNum = 1 });
+				//default controller route, controller, view, id
+				endpoints.MapDefaultControllerRoute();
+				endpoints.MapRazorPages();
 			});
 		}
 	}
