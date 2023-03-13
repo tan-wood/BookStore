@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Mission9_twoodru8.Model
 {
-	public class EFBookstoreReop:IBookstoreRepo
+	public class EFBookstoreReop:IBookstoreRepository
 	{
 		//this replaces the controller doing this
 		private BookstoreContext context { get; set; }

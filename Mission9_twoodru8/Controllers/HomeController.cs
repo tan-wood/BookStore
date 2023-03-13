@@ -12,8 +12,8 @@ namespace Mission9_twoodru8.Controllers
 {
 	public class HomeController : Controller
 	{
-		private IBookstoreRepo repo;
-		public HomeController(IBookstoreRepo temp)
+		private IBookstoreRepository repo;
+		public HomeController(IBookstoreRepository temp)
 		{
 			repo = temp;
 		}

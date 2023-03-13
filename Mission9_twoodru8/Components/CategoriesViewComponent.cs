@@ -9,9 +9,9 @@ namespace Mission9_twoodru8.Components
 {
     public class CategoriesViewComponent : ViewComponent
     {
-        private IBookstoreRepo repo { get; set; }
+        private IBookstoreRepository repo { get; set; }
 
-        public CategoriesViewComponent(IBookstoreRepo temp)
+        public CategoriesViewComponent(IBookstoreRepository temp)
         {
             repo = temp;
         }

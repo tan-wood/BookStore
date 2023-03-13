@@ -6,23 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Mission9_twoodru8.Infrastructure;
 using Mission9_twoodru8.Model;
-using Mission9_twoodru8.Models;
 
 namespace Mission9_twoodru8.Pages
 {
     public class AddToCartModel : PageModel
     {
-        private IBookstoreRepo repo { get; set; }
-        public AddToCartModel(IBookstoreRepo temp)
+        private IBookstoreRepository repo { get; set; }
+        public Cart cart { get; set; }
+        public string ReturnUrl { get; set; }
+        public AddToCartModel(IBookstoreRepository temp, Cart c)
         {
             repo = temp;
+            cart = c;
         }
-        public Basket basket { get; set; }
-        public string ReturnUrl { get; set; }
         public void OnGet(string returnUrl)
         {
             ReturnUrl = returnUrl ?? "/";
-            basket = HttpContext.Session.GetJson<Basket>("basket") ?? new Basket();
 
         }
 
@@ -30,11 +29,14 @@ namespace Mission9_twoodru8.Pages
         {
             Book b = repo.Books.FirstOrDefault(x => x.BookId == bookId);
 
-            //if the left is null, then do the right, if not, then all good do the left
-            basket = HttpContext.Session.GetJson<Basket>("basket") ?? new Basket();
 
-            basket.AddItem(b, 1);
-            HttpContext.Session.SetJson("basket", basket);
+            cart.AddItem(b, 1);
+
+            return RedirectToPage(new { ReturnUrl = returnUrl });
+        }
+        public IActionResult OnPostRemove(int bookId, string returnUrl)
+        {
+            cart.RemoveItem(cart.Items.First(x => x.Book.BookId == bookId).Book);
 
             return RedirectToPage(new { ReturnUrl = returnUrl });
         }

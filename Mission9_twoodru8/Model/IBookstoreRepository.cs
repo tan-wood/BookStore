@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Mission9_twoodru8.Model
 {
-	public interface IBookstoreRepo
+	public interface IBookstoreRepository
 	{
 		IQueryable<Book> Books { get; }
 	}

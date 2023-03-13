@@ -18,5 +18,6 @@ namespace Mission9_twoodru8.Model
         }
 
         public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
     }
 }
